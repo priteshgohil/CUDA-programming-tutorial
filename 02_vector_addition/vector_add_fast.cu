@@ -19,8 +19,20 @@ STEPS
 #define MAX_ERR 1e-6
 
 __global__ void vector_add(float *out, float *a, float *b, int n) {
-    int index = 0;
-    int stride = 1;
+    /*
+    For the k-th thread, the loop starts from k-th element and iterates 
+    through the array with a loop stride of 256. For example, in the 0-th 
+    iteration, the k-th thread computes the addition of k-th element. In the 
+    next iteration, the k-th thread computes the addition of (k+256)-th 
+    element, and so on. Following figure shows an illustration of the idea.
+    */
+    int index = threadIdx.x; // thread identifier inside block. values from 0-255
+    int stride = blockDim.x; // number of threads in a block i.e. 256
+    /*
+    1. Compilation: there will be 256 copies of this function for each thread
+    2. Initialize: i holds value of thread idx i.e. 0 to 255 (each thread has unique identifier)
+    3. Increment: each i value then increamented by 255 (block dimension) hence loop will run for N/256 itreation
+    */    
     for(int i = index; i < n; i+=stride){
         out[i] = a[i] + b[i];
     }
@@ -50,17 +62,23 @@ int main(){
     cudaMemcpy(d_b, b, sizeof(float) * N, cudaMemcpyHostToDevice);
 
     // 4. Kernel launch
-    vector_add<<<1,1>>>(d_out, d_a, d_b, N);      //use only one thread
+    vector_add<<<1,256>>>(d_out, d_a, d_b, N);      
 
     // 5. Transfer output from device memory to host
     cudaMemcpy(out, d_out, sizeof(float) * N, cudaMemcpyDeviceToHost);
+
+    // Verification
+    for(int i = 0; i < N; i++){
+        assert(fabs(out[i] - a[i] - b[i]) < MAX_ERR);
+    }
+    printf("PASSED\n");
 
     // 6. Free cuda memory
     cudaFree(d_a);
     cudaFree(d_b);
     cudaFree(d_out);
 
-    // Deallocate host memory
+    // 6. Deallocate host memory
     free(a); 
     free(b); 
     free(out);

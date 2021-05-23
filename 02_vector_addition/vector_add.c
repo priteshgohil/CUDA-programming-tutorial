@@ -2,6 +2,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define N 10000000
 
@@ -25,6 +26,10 @@ int main(){
     }
 
     // Main function
+    clock_t begin = clock();
     vector_add(out, a, b, N);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("vector_add execution time in Seconds: %f \n", time_spent);
 }
 
