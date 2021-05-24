@@ -9,19 +9,19 @@ This tutorial aims to compute the addition of two vector `a`, `b` and store resu
 - `vector_add_fast.cu` uses 256 threads on GPU to perform vector addition. 
 - `vector_add_faster.cu` uses 39063 blocks and 256 threads (i.e. number of threads are equal to the size of vector N) on GPU to perform vector addition. 
 
-`gcc vector_add.c -o vector_add_c`
-`gcc vector_add.cu -o vector_add_cu`
-`gcc vector_add_fast.cu -o vector_add_fast_cu`
-`gcc vector_add_faster.cu -o vector_add_faster_cu`
+- `gcc vector_add.c -o vector_add_c`
+- `gcc vector_add.cu -o vector_add_cu`
+- `gcc vector_add_fast.cu -o vector_add_fast_cu`
+- `gcc vector_add_faster.cu -o vector_add_faster_cu`
 
 
 ## Run
-`./vector_add_c`
-`./vector_add_cu`
+- `./vector_add_c`
+- `./vector_add_cu`
 
 ## Profiling GPU time
 Profiling will give information about the time it took to run the application
-`nvprof ./vector_add_cu`
+#### `nvprof ./vector_add_cu`
 
 ```
 ==13239== Profiling application: ./vector_add_cu
@@ -43,7 +43,7 @@ Profiling will give information about the time it took to run the application
 
 ```
 
-`nvprof ./vector_add_fast_cu`
+#### `nvprof ./vector_add_fast_cu`
 ```
 ==12827== Profiling application: ./vector_add_fast_cu
 ==12827== Profiling result:
@@ -63,7 +63,7 @@ Profiling will give information about the time it took to run the application
                     0.00%     800ns         1     800ns     800ns     800ns  cuDeviceGetUuid
 ```
 
-`nvprof ./vector_add_faster_cu`
+#### `nvprof ./vector_add_faster_cu`
 ```
 ==14108== Profiling application: ./vector_add_faster_cu
 ==14108== Profiling result:
