@@ -33,7 +33,7 @@ Figure below illustrates the organization of threads, blocks, and grids
 ### Blocks
 - Group of threads is called a CUDA block
 - CUDA blocks are grouped into a grid (see below figure)
-- Each block has unique identifier and it can be accessed by variable `blockIdx` e.g. `blockIdx.x`, `blockIdx.y`, `blockIdx.x`
+- Each block has unique identifier and it can be accessed by variable `blockIdx` giving size and shape of block. e.g. `blockIdx.x`, `blockIdx.y`, `blockIdx.x`
 - Each CUDA block is executed by one streaming multiprocessor (SM) and cannot be migrated to other SMs in GPU (except during preemption, debugging, or CUDA dynamic parallelism)
 - Blocks may coordinate but not synchronize
 
@@ -42,6 +42,7 @@ Figure below illustrates the organization of threads, blocks, and grids
 ### Grids
 - CUDA blocks are grouped into a grid
 - A kernel is executed as a grid of blocks of threads (see below figure)
+- `gridDim` provides size and shape of grid e.g. `gridDim.x`, `gridDim.y`, `gridDimz`
 
 ![CUDA grids organization](./images/grids.jpg "CUDA grids organization")
 
@@ -49,14 +50,19 @@ Figure below illustrates the organization of threads, blocks, and grids
 Thread indexing in CUDA C GPU programming depends on the organization of blocks in grid. Following images shows the 1D grid having different block dimensions. 
 
 ![1D grid of 1D blocks](./images/1dgrid1dblock.png "1D grid of 1D blocks")
+> `int index = blockIdx.x * blockDim.x + threadIdx.x;`
 
 ![1D grid of 2D blocks](./images/1dgrid2dblock.png "1D grid of 2D blocks")
+> NOTE: First block scope index should be specified before going to thread scope
 
-![1D grid of 3D blocks](./images/1dgrid13block.png "1D grid of 3D blocks")
+> `int index = blockIdx.x * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;`
+
+![1D grid of 3D blocks](./images/1dgrid3dblock.png "1D grid of 3D blocks")
+> `int index = blockIdx.x * blockDim.x * blockDim.y * blockDim.z + threadIdx.z * blockDim.y * blockDim.x + threadIdx.y * blockDim.x + threadIdx.x; `
 
 Following example illustrates the 3d grids and 3d blocks structure. Note that it will look like a 5x5x5 cube but other blocks are not shown for the better visualization.
 
-![3D grid of 3D blocks](./images/3dgrid13block.png "5x5x5 3D grid of 3D blocks")
+![3D grid of 3D blocks](./images/3dgrid3dblock.png "5x5x5 3D grid of 3D blocks")
 
 ## Memory Model
 
@@ -79,4 +85,3 @@ Following example illustrates the 3d grids and 3d blocks structure. Note that it
 - [CUDA Tutorial](https://cuda-tutorial.readthedocs.io/en/latest/#cuda-tutorial)
 - [Thread Indexing Visualization](https://github.com/andreajeka/CUDAThreadIndexing)
 - [CSC 447: Parallel Programming for Multi-Core and Cluster Systems](http://harmanani.github.io/classes/csc447/Notes/Lecture15.pdf)
-- 
