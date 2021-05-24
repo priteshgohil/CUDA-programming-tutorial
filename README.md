@@ -72,24 +72,59 @@ Following example illustrates the 3d grids and 3d blocks structure. Note that it
 ![3D grid of 3D blocks](./images/3dgrid3dblock.png "5x5x5 3D grid of 3D blocks")
 
 ## Memory Model
+- The CPU and GPU have separate memory spaces
+- This means that data that is processed by the GPU must be moved from the CPU to the GPU before the computation starts, and the results of the computation must be moved back to the CPU once processing has completed. This can be done using `cudaMalloc()` and `cudaMemcpy()`
+- Figure below shows the memory structure in GPU
+
+![CUDA memory model](./images/CUDA-GPU-memory-model-design.png "CUDA memory model")
+![CUDA memory model](./images/memory_model.png "CUDA memory model")
 
 ### Local Memory and Registers
+- Each thread has its own private local memory
+- Only exists for the lifetime of the thread
+- Generally handled automatically by the compiler
+
+![Local memory](./images/memory_local.png "Local memory")
+
 ### Shared Memory
+- Each thread block has its own shared memory
+- Accessible only by threads within the block
+- Much faster than local or global memory
+- Requires special handling to get maximum performance
+- Only exists for the lifetime of the block
+
+![Shared memory](./images/memory_shared.png "Shared memory")
+
 ### Global Memory
+- This memory is accessible to all threads as well as the host (CPU)
+- Global memory is allocated and deallocated by the hos
+- Used to initialize the data that the GPU will work on
+
+![Global memory](./images/memory_global.png "Global memory")
+
+### Constant and texture memory
+- These are read-only memory spaces accessible by all threads
+- Constant memory is used to cache values that are shared by all functional units
+- Texture memory is optimized for texturing operations provided by the hardware
 
 ## Thread Synchronization
 ### Why and when do we need this?
 
 ## Conclusion
+This tutorial has covered following points
+- Write and launch CUDA C/C++ kernels `__global__ , <<<>>>, blockIdx , threadIdx , blockDim`
+- Manage GPU memory `cudaMalloc() , cudaMemcpy() , cudaFree()`
+- TODO: Synchronization
+- TODO: Device selection
 
 ## Author
 - [Pritesh Gohil](https://github.com/priteshgohil)
 
 ## Contributors
-- []()
+- [FIRSTNAME LASTNAME](GIT_PROFILE_URL)
 
 ## References
 - [CUDA Tutorial](https://cuda-tutorial.readthedocs.io/en/latest/#cuda-tutorial)
 - [Thread Indexing Visualization](https://github.com/andreajeka/CUDAThreadIndexing)
 - [CSC 447: Parallel Programming for Multi-Core and Cluster Systems](http://harmanani.github.io/classes/csc447/Notes/Lecture15.pdf)
-- 
+- [CUDA Programming pro tip](https://developer.nvidia.com/blog/cuda-pro-tip-always-set-current-device-avoid-multithreading-bugs/)
