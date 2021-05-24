@@ -1,7 +1,8 @@
 # Introduction
+This tutorial aims to compute the addition of two vector `a`, `b` and store result in `out`. `vector_add.c` is the C program that runs on CPU and all the files with `.cu` extensions contains the code to perform vector addition on GPU.
 
 ## Vector addition on GPU
-
+![two vector addition using C](../images/vector_add.png "Add vector a and b")
 
 ### Build
 - `vector_add.cu` uses only single thread on GPU to perform vector addition. 
