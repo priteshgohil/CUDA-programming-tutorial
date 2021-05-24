@@ -12,11 +12,13 @@ Following diagram shows the architecture of CPU (host) and GPU (device). Data tr
 ![Portion of code used processed using CPU and GPU](./images/CPUvsGPU.png "Portion of code used processed using CPU and GPU")
 
 ## Threads, Blocks and Grids
-Functions in C/C++ are called kernel in CUDA program. Function with specifier `__global__` is to be executed in GPU. e.g. `__global__ void vector_add(float *out, float *a, float *b, int n)`. Note that the return type of kernel should always be `void` and kernel parameters should be passed by reference. 
+Functions in C/C++ are called kernel in CUDA program. Function with specifier `__global__` is to be executed in GPU. e.g. `__global__ void vector_add(float *out, float *a, float *b, int n)`. Note that the return type of kernel should always be `void`.
 
 Each kernel then launched with configuration parameters given in `<<<M,T>>>>` e.g. `vector_add <<<1,1>>>(d_out, d_a, d_b, N)` where
 - M = Number of blocks in grid
 - T = Number of threads in block
+
+The maximum dimension of grids and blocks is limited and depends on the CUDA compatibility version (not CUDA version) of GPU.
 
 Figure below illustrates the organization of threads, blocks, and grids
 
