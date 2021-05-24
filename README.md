@@ -7,9 +7,9 @@ Parallel computing has gained a lot of interest to improve the speed of program 
 
 Following diagram shows the architecture of CPU (host) and GPU (device). Data transfer between CPU and GPU is done using PCIe-bus (Peripheral Component Interconnect Express). For the GPU, two important aspects are number of CUDA cores and Memory size.
 
-![CPU and GPU architecture](../images/CPUvsGPUarch.png "CPU and GPU architecture")
+![CPU and GPU architecture](./images/CPUvsGPUarch.png "CPU and GPU architecture")
 
-![Portion of code used processed using CPU and GPU](../images/CPUvsGPU.png "Portion of code used processed using CPU and GPU")
+![Portion of code used processed using CPU and GPU](./images/CPUvsGPU.png "Portion of code used processed using CPU and GPU")
 
 ## Threads, Blocks and Grids
 Functions in C/C++ are called kernel in CUDA program. Function with specifier `__global__` is to be executed in GPU. e.g. `__global__ void vector_add(float *out, float *a, float *b, int n)`. Note that the return type of kernel should always be `void` and kernel parameters should be passed by reference. 
@@ -20,7 +20,7 @@ Each kernel then launched with configuration parameters given in `<<<M,T>>>>` e.
 
 Figure below illustrates the organization of threads, blocks, and grids
 
-![Threads, blocks and grids organization](../images/threads_blocks_grid.png "Threads, blocks and grids organization")
+![Threads, blocks and grids organization](./images/threads_blocks_grid.png "Threads, blocks and grids organization")
 
 ### Threads
 - CUDA threads executes in Single Instruction Multiple Thread (SIMT) fashion
@@ -37,26 +37,26 @@ Figure below illustrates the organization of threads, blocks, and grids
 - Each CUDA block is executed by one streaming multiprocessor (SM) and cannot be migrated to other SMs in GPU (except during preemption, debugging, or CUDA dynamic parallelism)
 - Blocks may coordinate but not synchronize
 
-![Blocks organization](../images/Software-Perspective_for_thread_block.jpg "CUDA blocks organization")
+![Blocks organization](./images/Software-Perspective_for_thread_block.jpg "CUDA blocks organization")
 
 ### Grids
 - CUDA blocks are grouped into a grid
 - A kernel is executed as a grid of blocks of threads (see below figure)
 
-![CUDA grids organization](../images/grids.jpg "CUDA grids organization")
+![CUDA grids organization](./images/grids.jpg "CUDA grids organization")
 
 ## Indexing
 Thread indexing in CUDA C GPU programming depends on the organization of blocks in grid. Following images shows the 1D grid having different block dimensions. 
 
-![1D grid of 1D blocks](../images/1dgrid1dblock.png "1D grid of 1D blocks")
+![1D grid of 1D blocks](./images/1dgrid1dblock.png "1D grid of 1D blocks")
 
-![1D grid of 2D blocks](../images/1dgrid2dblock.png "1D grid of 2D blocks")
+![1D grid of 2D blocks](./images/1dgrid2dblock.png "1D grid of 2D blocks")
 
-![1D grid of 3D blocks](../images/1dgrid13block.png "1D grid of 3D blocks")
+![1D grid of 3D blocks](./images/1dgrid13block.png "1D grid of 3D blocks")
 
 Following example illustrates the 3d grids and 3d blocks structure. Note that it will look like a 5x5x5 cube but other blocks are not shown for the better visualization.
 
-![3D grid of 3D blocks](../images/3dgrid13block.png "5x5x5 3D grid of 3D blocks")
+![3D grid of 3D blocks](./images/3dgrid13block.png "5x5x5 3D grid of 3D blocks")
 
 ## Memory Model
 
