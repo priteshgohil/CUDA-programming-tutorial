@@ -128,3 +128,4 @@ This tutorial has covered following points
 - [Thread Indexing Visualization](https://github.com/andreajeka/CUDAThreadIndexing)
 - [CSC 447: Parallel Programming for Multi-Core and Cluster Systems](http://harmanani.github.io/classes/csc447/Notes/Lecture15.pdf)
 - [CUDA Programming pro tip](https://developer.nvidia.com/blog/cuda-pro-tip-always-set-current-device-avoid-multithreading-bugs/)
+- [CUDA runtime API](https://docs.nvidia.com/cuda/cuda-runtime-api/modules.html#modules)
