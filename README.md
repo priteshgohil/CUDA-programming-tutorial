@@ -22,7 +22,7 @@ The maximum dimension of grids and blocks is limited and depends on the CUDA com
 
 Figure below illustrates the organization of threads, blocks, and grids
 
-![Threads, blocks and grids organization](./images/threads_blocks_grid.png "Threads, blocks and grids organization")
+![Threads, blocks and grids organization](./images/Threads_blocks_grids.png "Threads, blocks and grids organization")
 
 ### Threads
 - CUDA threads executes in Single Instruction Multiple Thread (SIMT) fashion
