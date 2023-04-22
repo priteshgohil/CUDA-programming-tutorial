@@ -28,14 +28,14 @@ Figure below illustrates the organization of threads, blocks, and grids
 - CUDA threads executes in Single Instruction Multiple Thread (SIMT) fashion
 - Each threads performs the exactly same task on the subset of data
 - Each thread execute independently, have their own register and local memory
-- Execution of time threads can be different even though they are executing same kernel. This is because different data flow it takes due to IF condition or FOR loop
+- Execution time of threads can be different even though they are executing same kernel. This is because different data flow it takes during IF ELSE condition or FOR loop
 - Thread has unique identifier ant it can be accessed using variable `threadIdx` e.g. 'threadIdx.x', 'threadIdx.y', 'threadIdx.z`
 - Organization of threads in a block can be 1D, 2D or 3D and it can be accessed using variable `blockDim` e.g. `blockDim.x`, `blockDim.y`, `blockDim.z`
 
 ### Blocks
 - Group of threads is called a CUDA block
 - CUDA blocks are grouped into a grid (see below figure)
-- Each block has unique identifier and it can be accessed by variable `blockIdx` giving size and shape of block. e.g. `blockIdx.x`, `blockIdx.y`, `blockIdx.x`
+- Each block has unique identifier and it can be accessed by variable `blockIdx` giving size and shape of block. e.g. `blockIdx.x`, `blockIdx.y`, `blockIdx.z`
 - Each CUDA block is executed by one streaming multiprocessor (SM) and cannot be migrated to other SMs in GPU (except during preemption, debugging, or CUDA dynamic parallelism)
 - Blocks may coordinate but not synchronize
 
@@ -52,14 +52,25 @@ Figure below illustrates the organization of threads, blocks, and grids
 Thread indexing in CUDA C GPU programming depends on the organization of blocks in grid. Following images shows the 1D grid having different block dimensions. 
 
 - - -
-`int index = blockIdx.x * blockDim.x + threadIdx.x;`
+`int index = blockDim.x * blockIdx.x + threadIdx.x;`
+
+`blockDim.x` = number of threads in a block i.e. 4<br>
+`blockIdx.x` = index of the block in the grid <br>
+`threadIdx.x` = index of the thread in the block <br>
+
 
 ![1D grid of 1D blocks](./images/1dgrid1dblock.png "1D grid of 1D blocks")
 
 - - - 
 NOTE: First block scope index should be specified before going to thread scope
 
+`gridIndex = blockIdx.y * gridDim.x + blockIdx.x = blockIdx.x` (map each 2D block to a unique index in the 1D grid. gridDim.x = 0) <br>
+`threadIndex = threadIdx.y * blockDim.x + threadIdx.x` (unique index for each thread within a 2D block) <br>
+`index = gridIndex * (blockDim.x * blockDim.y) + threadIndex` (unique index for each thread in the 1D grid.)<br>
+
 `int index = blockIdx.x * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;`
+
+`blockDim.x, blockDim.y` = 5, 4  
 
 ![1D grid of 2D blocks](./images/1dgrid2dblock.png "1D grid of 2D blocks")
 
@@ -99,8 +110,8 @@ Following example illustrates the 3d grids and 3d blocks structure. Note that it
 
 ### Global Memory
 - This memory is accessible to all threads as well as the host (CPU)
-- Global memory is allocated and deallocated by the hos
-- Used to initialize the data that the GPU will work on
+- Global memory is allocated and deallocated by the host
+- Used for initializing data that GPU will work on
 
 ![Global memory](./images/memory_global.png "Global memory")
 
